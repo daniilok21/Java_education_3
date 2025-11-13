@@ -12,6 +12,7 @@ import io.github.some_example_name.GameResources;
 import io.github.some_example_name.GameSession;
 import io.github.some_example_name.GameSettings;
 import io.github.some_example_name.MyGdxGame;
+import io.github.some_example_name.objects.BulletObject;
 import io.github.some_example_name.objects.ShipObject;
 import io.github.some_example_name.objects.TrashObject;
 
@@ -22,12 +23,14 @@ public class GameScreen extends ScreenAdapter {
     ShipObject shipObject;
 
     ArrayList<TrashObject> trashArray;
+    ArrayList<BulletObject> bulletArray;
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         gameSession = new GameSession();
 
         trashArray = new ArrayList<>();
+        bulletArray = new ArrayList<>();
 
         shipObject = new ShipObject(
             GameSettings.SCREEN_WIDTH / 2, 150,
@@ -35,7 +38,6 @@ public class GameScreen extends ScreenAdapter {
             GameResources.SHIP_IMG_PATH,
             myGdxGame.world
         );
-
     }
 
     @Override
@@ -58,7 +60,18 @@ public class GameScreen extends ScreenAdapter {
             trashArray.add(trashObject);
         }
 
+        if (shipObject.needToShoot()) {
+            BulletObject laserBullet = new BulletObject(
+                shipObject.getX(), shipObject.getY() + shipObject.height / 2,
+                GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
+                GameResources.BULLET_IMG_PATH,
+                myGdxGame.world
+            );
+            bulletArray.add(laserBullet);
+        }
+
         updateTrash();
+        updateBullets();
 
         draw();
     }
@@ -79,8 +92,8 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.begin();
         for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
         shipObject.draw(myGdxGame.batch);
+        for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
         myGdxGame.batch.end();
-
     }
 
     private void updateTrash() {
@@ -88,6 +101,15 @@ public class GameScreen extends ScreenAdapter {
             if (!trashArray.get(i).isInFrame()) {
                 myGdxGame.world.destroyBody(trashArray.get(i).body);
                 trashArray.remove(i--);
+            }
+        }
+    }
+
+    private void updateBullets() {
+        for (int i = 0; i < bulletArray.size(); i++) {
+            if (bulletArray.get(i).hasToBeDestroyed()) {
+                myGdxGame.world.destroyBody(bulletArray.get(i).body);
+                bulletArray.remove(i--);
             }
         }
     }
