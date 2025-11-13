@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
+import io.github.some_example_name.ContactManager;
 import io.github.some_example_name.GameResources;
 import io.github.some_example_name.GameSession;
 import io.github.some_example_name.GameSettings;
@@ -25,9 +26,13 @@ public class GameScreen extends ScreenAdapter {
     ArrayList<TrashObject> trashArray;
     ArrayList<BulletObject> bulletArray;
 
+    ContactManager contactManager;
+
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         gameSession = new GameSession();
+
+        contactManager = new ContactManager(myGdxGame.world);
 
         trashArray = new ArrayList<>();
         bulletArray = new ArrayList<>();
@@ -70,6 +75,10 @@ public class GameScreen extends ScreenAdapter {
             bulletArray.add(laserBullet);
         }
 
+        if (!shipObject.isAlive()) {
+            System.out.println("Game over!");
+        }
+
         updateTrash();
         updateBullets();
 
@@ -94,11 +103,12 @@ public class GameScreen extends ScreenAdapter {
         shipObject.draw(myGdxGame.batch);
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
         myGdxGame.batch.end();
+
     }
 
     private void updateTrash() {
         for (int i = 0; i < trashArray.size(); i++) {
-            if (!trashArray.get(i).isInFrame()) {
+            if (!trashArray.get(i).isInFrame() || !trashArray.get(i).isAlive()) {
                 myGdxGame.world.destroyBody(trashArray.get(i).body);
                 trashArray.remove(i--);
             }

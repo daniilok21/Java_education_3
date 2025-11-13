@@ -11,10 +11,12 @@ import io.github.some_example_name.GameSettings;
 public class ShipObject extends GameObject {
 
     long lastShotTime;
+    int livesLeft;
 
     public ShipObject(int x, int y, int width, int height, String texturePath, World world) {
-        super(texturePath, x, y, width, height, world);
+        super(texturePath, x, y, width, height, GameSettings.SHIP_BIT, world);
         body.setLinearDamping(10);
+        livesLeft = 3;
     }
 
     @Override
@@ -54,4 +56,12 @@ public class ShipObject extends GameObject {
         return false;
     }
 
+    @Override
+    public void hit() {
+        livesLeft -= 1;
+    }
+
+    public boolean isAlive() {
+        return livesLeft > 0;
+    }
 }
