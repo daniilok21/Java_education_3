@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 
 import io.github.some_example_name.screens.GameScreen;
+import io.github.some_example_name.screens.MenuScreen;
+
 import static io.github.some_example_name.GameSettings.*;
 
 public class MyGdxGame extends Game {
@@ -27,6 +29,7 @@ public class MyGdxGame extends Game {
     public OrthographicCamera camera;
 
     public GameScreen gameScreen;
+    public MenuScreen menuScreen;
 
     float accumulator = 0;
 
@@ -45,8 +48,9 @@ public class MyGdxGame extends Game {
         camera.setToOrtho(false, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 
         gameScreen = new GameScreen(this);
+        menuScreen = new MenuScreen(this);
 
-        setScreen(gameScreen);
+        setScreen(menuScreen);
     }
 
     @Override
