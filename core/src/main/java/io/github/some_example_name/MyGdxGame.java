@@ -2,7 +2,9 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -15,6 +17,10 @@ import static io.github.some_example_name.GameSettings.*;
 public class MyGdxGame extends Game {
 
     public World world;
+
+    public BitmapFont largeWhiteFont;
+    public BitmapFont commonWhiteFont;
+    public BitmapFont commonBlackFont;
 
     public Vector3 touch;
     public SpriteBatch batch;
@@ -29,6 +35,10 @@ public class MyGdxGame extends Game {
 
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
+
+        largeWhiteFont = FontBuilder.generate(48, Color.WHITE, GameResources.FONT_PATH);
+        commonWhiteFont = FontBuilder.generate(24, Color.WHITE, GameResources.FONT_PATH);
+        commonBlackFont = FontBuilder.generate(24, Color.BLACK, GameResources.FONT_PATH);
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
