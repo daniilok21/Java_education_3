@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
+import io.github.some_example_name.components.RecordsListView;
 import io.github.some_example_name.managers.ContactManager;
 import io.github.some_example_name.GameResources;
 import io.github.some_example_name.GameSession;
@@ -19,6 +20,7 @@ import io.github.some_example_name.components.ImageView;
 import io.github.some_example_name.components.LiveView;
 import io.github.some_example_name.components.MovingBackgroundView;
 import io.github.some_example_name.components.TextView;
+import io.github.some_example_name.managers.MemoryManager;
 import io.github.some_example_name.objects.BulletObject;
 import io.github.some_example_name.objects.ShipObject;
 import io.github.some_example_name.objects.TrashObject;
@@ -46,6 +48,11 @@ public class GameScreen extends ScreenAdapter {
     TextView pauseTextView;
     ButtonView homeButton;
     ButtonView continueButton;
+
+    // ENDED state UI
+    TextView recordsTextView;
+    RecordsListView recordsListView;
+    ButtonView homeButton2;
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -90,6 +97,16 @@ public class GameScreen extends ScreenAdapter {
             "Continue"
         );
 
+        recordsListView = new RecordsListView(myGdxGame.commonWhiteFont, 690);
+        recordsTextView = new TextView(myGdxGame.largeWhiteFont, 206, 842, "Last records");
+        homeButton2 = new ButtonView(
+            280, 365,
+            160, 70,
+            myGdxGame.commonBlackFont,
+            GameResources.BUTTON_SHORT_BG_IMG_PATH,
+            "Home"
+        );
+
     }
 
     @Override
@@ -124,13 +141,15 @@ public class GameScreen extends ScreenAdapter {
             }
 
             if (!shipObject.isAlive()) {
-                System.out.println("Game over!");
+                gameSession.endGame();
+                recordsListView.setRecords(MemoryManager.loadRecordsTable());
             }
 
             updateTrash();
             updateBullets();
             backgroundView.move();
-            scoreTextView.setText("Score: " + 100);
+            gameSession.updateScore();
+            scoreTextView.setText("Score: " + gameSession.getScore());
             liveView.setLeftLives(shipObject.getLiveLeft());
 
             myGdxGame.stepWorld();
@@ -156,6 +175,13 @@ public class GameScreen extends ScreenAdapter {
                         gameSession.resumeGame();
                     }
                     if (homeButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                        myGdxGame.setScreen(myGdxGame.menuScreen);
+                    }
+                    break;
+
+                case ENDED:
+
+                    if (homeButton2.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
                         myGdxGame.setScreen(myGdxGame.menuScreen);
                     }
                     break;
@@ -185,6 +211,11 @@ public class GameScreen extends ScreenAdapter {
             pauseTextView.draw(myGdxGame.batch);
             homeButton.draw(myGdxGame.batch);
             continueButton.draw(myGdxGame.batch);
+        } else if (gameSession.state == GameState.ENDED) {
+            fullBlackoutView.draw(myGdxGame.batch);
+            recordsTextView.draw(myGdxGame.batch);
+            recordsListView.draw(myGdxGame.batch);
+            homeButton2.draw(myGdxGame.batch);
         }
 
         myGdxGame.batch.end();
@@ -197,6 +228,7 @@ public class GameScreen extends ScreenAdapter {
             boolean hasToBeDestroyed = !trashArray.get(i).isAlive() || !trashArray.get(i).isInFrame();
 
             if (!trashArray.get(i).isAlive()) {
+                gameSession.destructionRegistration();
                 if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
             }
 
@@ -215,6 +247,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }
     }
+
     private void restartGame() {
 
         for (int i = 0; i < trashArray.size(); i++) {
@@ -236,4 +269,5 @@ public class GameScreen extends ScreenAdapter {
         bulletArray.clear();
         gameSession.startGame();
     }
+
 }
