@@ -1,6 +1,8 @@
-package io.github.some_example_name;
+package io.github.some_example_name.managers;
 
 import com.badlogic.gdx.physics.box2d.*;
+
+import io.github.some_example_name.GameSettings;
 import io.github.some_example_name.objects.GameObject;
 
 public class ContactManager {

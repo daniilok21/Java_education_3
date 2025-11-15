@@ -11,8 +11,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 
+import io.github.some_example_name.managers.AudioManager;
 import io.github.some_example_name.screens.GameScreen;
 import io.github.some_example_name.screens.MenuScreen;
+import io.github.some_example_name.screens.SettingsScreen;
 
 import static io.github.some_example_name.GameSettings.*;
 
@@ -30,6 +32,10 @@ public class MyGdxGame extends Game {
 
     public GameScreen gameScreen;
     public MenuScreen menuScreen;
+    public SettingsScreen settingsScreen;
+
+    public AudioManager audioManager;
+
 
     float accumulator = 0;
 
@@ -47,8 +53,12 @@ public class MyGdxGame extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 
+        audioManager = new AudioManager();
+
         gameScreen = new GameScreen(this);
         menuScreen = new MenuScreen(this);
+        settingsScreen = new SettingsScreen(this);
+
 
         setScreen(menuScreen);
     }

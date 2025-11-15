@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
-import io.github.some_example_name.ContactManager;
+import io.github.some_example_name.managers.ContactManager;
 import io.github.some_example_name.GameResources;
 import io.github.some_example_name.GameSession;
 import io.github.some_example_name.GameSettings;
@@ -120,6 +120,7 @@ public class GameScreen extends ScreenAdapter {
                     myGdxGame.world
                 );
                 bulletArray.add(laserBullet);
+                if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.shootSound.play();
             }
 
             if (!shipObject.isAlive()) {
@@ -192,7 +193,14 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateTrash() {
         for (int i = 0; i < trashArray.size(); i++) {
-            if (!trashArray.get(i).isInFrame() || !trashArray.get(i).isAlive()) {
+
+            boolean hasToBeDestroyed = !trashArray.get(i).isAlive() || !trashArray.get(i).isInFrame();
+
+            if (!trashArray.get(i).isAlive()) {
+                if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
+            }
+
+            if (hasToBeDestroyed) {
                 myGdxGame.world.destroyBody(trashArray.get(i).body);
                 trashArray.remove(i--);
             }
