@@ -80,5 +80,9 @@ public class GameObject {
         body.setTransform(x * SCALE, y * SCALE, 0);
         return body;
     }
-
+    public void dispose() {
+        if (texture != null) {
+            texture.dispose();
+        }
+    }
 }

@@ -66,6 +66,19 @@ public class MyGdxGame extends Game {
     @Override
     public void dispose() {
         batch.dispose();
+        world.dispose();
+
+        largeWhiteFont.dispose();
+        commonWhiteFont.dispose();
+        commonBlackFont.dispose();
+
+        audioManager.backgroundMusic.dispose();
+        audioManager.shootSound.dispose();
+        audioManager.explosionSound.dispose();
+
+        if (gameScreen != null) gameScreen.dispose();
+        if (menuScreen != null) menuScreen.dispose();
+        if (settingsScreen != null) settingsScreen.dispose();
     }
 
     public void stepWorld() {
