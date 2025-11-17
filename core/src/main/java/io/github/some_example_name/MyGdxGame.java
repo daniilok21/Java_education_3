@@ -15,6 +15,7 @@ import io.github.some_example_name.managers.AudioManager;
 import io.github.some_example_name.screens.GameScreen;
 import io.github.some_example_name.screens.MenuScreen;
 import io.github.some_example_name.screens.SettingsScreen;
+import io.github.some_example_name.screens.UpgradesScreen;
 
 import static io.github.some_example_name.GameSettings.*;
 
@@ -33,6 +34,7 @@ public class MyGdxGame extends Game {
     public GameScreen gameScreen;
     public MenuScreen menuScreen;
     public SettingsScreen settingsScreen;
+    public UpgradesScreen upgradesScreen;
 
     public AudioManager audioManager;
 
@@ -58,6 +60,7 @@ public class MyGdxGame extends Game {
         gameScreen = new GameScreen(this);
         menuScreen = new MenuScreen(this);
         settingsScreen = new SettingsScreen(this);
+        upgradesScreen = new UpgradesScreen(this);
 
 
         setScreen(menuScreen);
@@ -79,6 +82,7 @@ public class MyGdxGame extends Game {
         if (gameScreen != null) gameScreen.dispose();
         if (menuScreen != null) menuScreen.dispose();
         if (settingsScreen != null) settingsScreen.dispose();
+        if (upgradesScreen != null) upgradesScreen.dispose();
     }
 
     public void stepWorld() {

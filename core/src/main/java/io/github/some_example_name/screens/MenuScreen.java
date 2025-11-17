@@ -21,6 +21,7 @@ public class MenuScreen extends ScreenAdapter {
     ButtonView startButtonView;
     ButtonView settingsButtonView;
     ButtonView exitButtonView;
+    ButtonView upgradesView;
 
     public MenuScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -28,8 +29,9 @@ public class MenuScreen extends ScreenAdapter {
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
         titleView = new TextView(myGdxGame.largeWhiteFont, 180, 960, "Space Cleaner");
         startButtonView = new ButtonView(140, 646, 440, 70, myGdxGame.commonBlackFont, GameResources.BUTTON_LONG_BG_IMG_PATH, "start");
-        settingsButtonView = new ButtonView(140, 551, 440, 70, myGdxGame.commonBlackFont, GameResources.BUTTON_LONG_BG_IMG_PATH, "settings");
-        exitButtonView = new ButtonView(140, 456, 440, 70, myGdxGame.commonBlackFont, GameResources.BUTTON_LONG_BG_IMG_PATH, "exit");
+        upgradesView = new ButtonView(140, 551, 440, 70, myGdxGame.commonBlackFont, GameResources.BUTTON_LONG_BG_IMG_PATH, "upgrades");
+        settingsButtonView = new ButtonView(140, 456, 440, 70, myGdxGame.commonBlackFont, GameResources.BUTTON_LONG_BG_IMG_PATH, "settings");
+        exitButtonView = new ButtonView(140, 361, 440, 70, myGdxGame.commonBlackFont, GameResources.BUTTON_LONG_BG_IMG_PATH, "exit");
     }
 
     @Override
@@ -45,6 +47,7 @@ public class MenuScreen extends ScreenAdapter {
 
         backgroundView.draw(myGdxGame.batch);
         titleView.draw(myGdxGame.batch);
+        upgradesView.draw(myGdxGame.batch);
         exitButtonView.draw(myGdxGame.batch);
         settingsButtonView.draw(myGdxGame.batch);
         startButtonView.draw(myGdxGame.batch);
@@ -64,6 +67,9 @@ public class MenuScreen extends ScreenAdapter {
             }
             if (settingsButtonView.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
                 myGdxGame.setScreen(myGdxGame.settingsScreen);
+            }
+            if (upgradesView.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                myGdxGame.setScreen(myGdxGame.upgradesScreen);
             }
         }
     }
