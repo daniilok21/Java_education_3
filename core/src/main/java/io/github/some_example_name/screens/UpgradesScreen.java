@@ -11,12 +11,14 @@ import io.github.some_example_name.MyGdxGame;
 import io.github.some_example_name.components.ButtonView;
 import io.github.some_example_name.components.ImageView;
 import io.github.some_example_name.components.MovingBackgroundView;
+import io.github.some_example_name.components.ProgressUpgrades;
 import io.github.some_example_name.components.TextView;
 
 public class UpgradesScreen extends ScreenAdapter {
 
     MyGdxGame myGdxGame;
 
+    ProgressUpgrades healthUpgrades;
     MovingBackgroundView backgroundView;
     TextView titleTextView;
     ImageView blackoutImageView;
@@ -26,17 +28,19 @@ public class UpgradesScreen extends ScreenAdapter {
         this.myGdxGame = myGdxGame;
 
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
-        blackoutImageView = new ImageView(85, 365, GameResources.BLACKOUT_MIDDLE_IMG_PATH);
+        blackoutImageView = new ImageView(85, 345, 550, 580, GameResources.BLACKOUT_MIDDLE_IMG_PATH);
 
         titleTextView = new TextView(myGdxGame.largeWhiteFont, 180, 960, "Upgrades");
 
         returnButton = new ButtonView(
-            280, 447,
+            280, 427,
             160, 70,
             myGdxGame.commonBlackFont,
             GameResources.BUTTON_SHORT_BG_IMG_PATH,
             "return"
         );
+        healthUpgrades = new ProgressUpgrades(150, 780, 360, 84, 1);
+        // 285
     }
 
     @Override
@@ -52,6 +56,8 @@ public class UpgradesScreen extends ScreenAdapter {
 
         backgroundView.draw(myGdxGame.batch);
         blackoutImageView.draw(myGdxGame.batch);
+
+        healthUpgrades.draw(myGdxGame.batch);
         titleTextView.draw(myGdxGame.batch);
         returnButton.draw(myGdxGame.batch);
 

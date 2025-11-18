@@ -19,6 +19,8 @@ public class GameResources {
     public static final String SHIP_IMG_PATH = "textures/ship.png";
     public static final String TRASH_IMG_PATH = "textures/trash.png";
 
+    public static final String UPGRADES_BACK_BAR_IMG_PATH = "textures/back_upgrades_bar.png";
+
     // Sounds and music for audio
 
     public static final String BACKGROUND_MUSIC_PATH = "sounds/background_music.mp3";
