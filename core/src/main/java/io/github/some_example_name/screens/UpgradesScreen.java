@@ -39,8 +39,7 @@ public class UpgradesScreen extends ScreenAdapter {
             GameResources.BUTTON_SHORT_BG_IMG_PATH,
             "return"
         );
-        healthUpgrades = new ProgressUpgrades(150, 780, 360, 84, 1);
-        // 285
+        healthUpgrades = new ProgressUpgrades(150, 780, 360, 84, 1, GameResources.UPGRADES_HEALTH_BAR_IMG_PATH, GameResources.UPGRADES_HEALTH_ICON_IMG_PATH);
     }
 
     @Override
