@@ -19,10 +19,15 @@ public class UpgradesScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
 
     ProgressUpgrades healthUpgrades;
+    ProgressUpgrades damageUpgrades;
+    ProgressUpgrades fireRateUpgrades;
     MovingBackgroundView backgroundView;
     TextView titleTextView;
     ImageView blackoutImageView;
     ButtonView returnButton;
+    ButtonView plusButtonHealth;
+    ButtonView plusButtonDamage;
+    ButtonView plusButtonFireRate;
 
     public UpgradesScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -39,7 +44,12 @@ public class UpgradesScreen extends ScreenAdapter {
             GameResources.BUTTON_SHORT_BG_IMG_PATH,
             "return"
         );
-        healthUpgrades = new ProgressUpgrades(150, 780, 360, 84, 1, GameResources.UPGRADES_HEALTH_BAR_IMG_PATH, GameResources.UPGRADES_HEALTH_ICON_IMG_PATH);
+        healthUpgrades = new ProgressUpgrades(150, 780, 360, 84, 1, 16, 16, GameResources.UPGRADES_HEALTH_BAR_IMG_PATH, GameResources.UPGRADES_HEALTH_ICON_IMG_PATH);
+        damageUpgrades = new ProgressUpgrades(150, 668, 360, 84, 1, 13, 16, GameResources.UPGRADES_DAMAGE_BAR_IMG_PATH, GameResources.UPGRADES_DAMAGE_ICON_IMG_PATH);
+        fireRateUpgrades = new ProgressUpgrades(150, 556, 360, 84, 1, 16, 16, GameResources.UPGRADES_HEALTH_BAR_IMG_PATH, GameResources.UPGRADES_HEALTH_ICON_IMG_PATH);
+        plusButtonHealth = new ButtonView(530, 792, 64, 64, GameResources.UPGRADES_PLUS_ICON_IMG_PATH);
+        plusButtonDamage = new ButtonView(530, 680, 64, 64, GameResources.UPGRADES_PLUS_ICON_IMG_PATH);
+        plusButtonFireRate = new ButtonView(530, 568, 64, 64, GameResources.UPGRADES_PLUS_ICON_IMG_PATH);
     }
 
     @Override
@@ -57,8 +67,13 @@ public class UpgradesScreen extends ScreenAdapter {
         blackoutImageView.draw(myGdxGame.batch);
 
         healthUpgrades.draw(myGdxGame.batch);
+        damageUpgrades.draw(myGdxGame.batch);
+        fireRateUpgrades.draw(myGdxGame.batch);
         titleTextView.draw(myGdxGame.batch);
         returnButton.draw(myGdxGame.batch);
+        plusButtonHealth.draw(myGdxGame.batch);
+        plusButtonDamage.draw(myGdxGame.batch);
+        plusButtonFireRate.draw(myGdxGame.batch);
 
         myGdxGame.batch.end();
     }
@@ -68,6 +83,15 @@ public class UpgradesScreen extends ScreenAdapter {
             myGdxGame.touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             if (returnButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
                 myGdxGame.setScreen(myGdxGame.menuScreen);
+            }
+            if (plusButtonHealth.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                System.out.println("Health hit");
+            }
+            if (plusButtonDamage.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                System.out.println("Damage hit");
+            }
+            if (plusButtonFireRate.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                System.out.println("FireRate hit");
             }
         }
     }

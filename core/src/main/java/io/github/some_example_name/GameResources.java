@@ -20,8 +20,11 @@ public class GameResources {
     public static final String TRASH_IMG_PATH = "textures/trash.png";
 
     public static final String UPGRADES_BACK_BAR_IMG_PATH = "textures/back_upgrades_bar.png";
+    public static final String UPGRADES_PLUS_ICON_IMG_PATH = "textures/plus_icon.png";
     public static final String UPGRADES_HEALTH_BAR_IMG_PATH = "textures/health_bar.png";
+    public static final String UPGRADES_DAMAGE_BAR_IMG_PATH = "textures/damage_bar.png";
     public static final String UPGRADES_HEALTH_ICON_IMG_PATH = "textures/healthUpgrades.png";
+    public static final String UPGRADES_DAMAGE_ICON_IMG_PATH = "textures/damage_icon.png";
 
     // Sounds and music for audio
 

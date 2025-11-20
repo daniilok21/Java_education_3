@@ -19,7 +19,7 @@ public class ProgressUpgrades extends View {
     float yIcon;
 
 
-    public ProgressUpgrades(float x, float y, float width, float height, int upgradeLevel, String pathToTextureBar, String pathToTextureIcon) {
+    public ProgressUpgrades(float x, float y, float width, float height, int upgradeLevel, float xIcon, float yIcon, String pathToTextureBar, String pathToTextureIcon) {
         super(x, y);
         texture = new Texture(GameResources.UPGRADES_BACK_BAR_IMG_PATH);
         textureBar = new Texture(pathToTextureBar);
@@ -31,8 +31,8 @@ public class ProgressUpgrades extends View {
         this.upgradeLevel = 5;
         xBar = 84;
         yBar = 22; // священные числа
-        xIcon = 16;
-        yIcon = 16;
+        this.xIcon = xIcon;
+        this.yIcon = yIcon;
     }
 
     @Override
