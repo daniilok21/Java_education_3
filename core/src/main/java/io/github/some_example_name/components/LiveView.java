@@ -29,6 +29,8 @@ public class LiveView extends View {
         if (leftLives > 0) batch.draw(texture, x + (texture.getWidth() + livePadding), y, width, height);
         if (leftLives > 1) batch.draw(texture, x, y, width, height);
         if (leftLives > 2) batch.draw(texture, x + 2 * (texture.getWidth() + livePadding), y, width, height);
+        if (leftLives > 3) batch.draw(texture, x - (texture.getWidth() + livePadding), y, width, height);
+        if (leftLives > 4) batch.draw(texture, x + 3 * (texture.getWidth() + livePadding), y, width, height);
     }
 
     @Override

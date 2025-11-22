@@ -158,6 +158,20 @@ public class GameScreen extends ScreenAdapter {
         draw();
     }
 
+    @Override
+    public void pause() {
+        if (gameSession.state == GameState.PLAYING) {
+            gameSession.pauseGame();
+        }
+    }
+
+    @Override
+    public void resume() {
+        if (gameSession.state == GameState.PAUSED) {
+            gameSession.resumeGame();
+        }
+    }
+
     private void handleInput() {
         if (Gdx.input.isTouched()) {
             myGdxGame.touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -175,6 +189,7 @@ public class GameScreen extends ScreenAdapter {
                         gameSession.resumeGame();
                     }
                     if (homeButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                        MemoryManager.putTotalScore(gameSession.getScore());
                         myGdxGame.setScreen(myGdxGame.menuScreen);
                     }
                     break;
@@ -300,9 +315,7 @@ public class GameScreen extends ScreenAdapter {
             myGdxGame.world.destroyBody(bullet.body);
             bullet.dispose();
         }
-        if (shipObject != null) {
-            myGdxGame.world.destroyBody(shipObject.body);
-            shipObject.dispose();
-        }
+        myGdxGame.world.destroyBody(shipObject.body);
+        shipObject.dispose();
     }
 }

@@ -18,6 +18,7 @@ public class GameSettings {
     public static long STARTING_TRASH_APPEARANCE_COOL_DOWN = 2000; // in [ms] - milliseconds
     public static int BULLET_VELOCITY = 200; // in [m/s] - meter per second
     public static int SHOOTING_COOL_DOWN = 1000; // in [ms] - milliseconds
+    public static int SHOOTING_DECREASE_COOL_DOWN = 100; // in [ms] - milliseconds
 
     public static final short TRASH_BIT = 2;
     public static final short SHIP_BIT = 4;
@@ -31,4 +32,7 @@ public class GameSettings {
     public static final int TRASH_HEIGHT = 100;
     public static final int BULLET_WIDTH = 15;
     public static final int BULLET_HEIGHT = 45;
+
+    // upgrades
+    public static final int UPGRADES_KOFF_COST_UP = 100;
 }

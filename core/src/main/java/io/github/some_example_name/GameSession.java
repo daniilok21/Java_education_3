@@ -51,6 +51,7 @@ public class GameSession {
         }
         recordsTable.add(foundIdx, getScore());
         MemoryManager.saveTableOfRecords(recordsTable);
+        MemoryManager.putTotalScore(score);
     }
 
     public void destructionRegistration() {

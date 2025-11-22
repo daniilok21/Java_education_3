@@ -7,16 +7,19 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import io.github.some_example_name.GameSettings;
+import io.github.some_example_name.managers.MemoryManager;
 
 public class ShipObject extends GameObject {
 
     long lastShotTime;
     int livesLeft;
+    int levelFireRate;
 
     public ShipObject(int x, int y, int width, int height, String texturePath, World world) {
         super(texturePath, x, y, width, height, GameSettings.SHIP_BIT, world);
         body.setLinearDamping(10);
-        livesLeft = 3;
+        livesLeft = MemoryManager.getHealthLevel();
+        levelFireRate = MemoryManager.getFireRateLevel();
     }
 
     public int getLiveLeft() {
@@ -53,7 +56,7 @@ public class ShipObject extends GameObject {
     }
 
     public boolean needToShoot() {
-        if (TimeUtils.millis() - lastShotTime >= GameSettings.SHOOTING_COOL_DOWN) {
+        if (TimeUtils.millis() - lastShotTime >= GameSettings.SHOOTING_COOL_DOWN - GameSettings.SHOOTING_DECREASE_COOL_DOWN * (levelFireRate - 1f)) {
             lastShotTime = TimeUtils.millis();
             return true;
         }

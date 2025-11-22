@@ -1,5 +1,6 @@
 package io.github.some_example_name.components;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -15,11 +16,15 @@ public class ButtonView extends View {
     float textX;
     float textY;
 
+    private boolean isEnabled;
+
     public ButtonView(float x, float y, float width, float height, BitmapFont font, String texturePath, String text) {
         super(x, y, width, height);
 
         this.text = text;
         this.bitmapFont = font;
+
+        isEnabled = true;
 
         texture = new Texture(texturePath);
 
@@ -33,14 +38,34 @@ public class ButtonView extends View {
 
     public ButtonView(float x, float y, float width, float height, String texturePath) {
         super(x, y, width, height);
-
+        isEnabled = true;
         texture  = new Texture(texturePath);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
+        Color originalColor = new Color(batch.getColor());
+        if (!isEnabled) {
+            batch.setColor(0.6f, 0.6f, 0.6f, 1f);
+        }
         batch.draw(texture, x, y, width, height);
-        if (bitmapFont != null) bitmapFont.draw(batch, text, textX, textY);
+        batch.setColor(originalColor);
+
+        if (bitmapFont != null) {
+            Color originalFontColor = new Color(bitmapFont.getColor());
+            if (!isEnabled) {
+                bitmapFont.setColor(0.7f, 0.7f, 0.7f, 1f);
+            }
+            bitmapFont.draw(batch, text, textX, textY);
+            bitmapFont.setColor(originalFontColor);
+        }
+    }
+    public void setEnabled(boolean enabled) {
+        this.isEnabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
     @Override

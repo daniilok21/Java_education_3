@@ -46,4 +46,43 @@ public class MemoryManager {
         return table;
     }
 
+    public static int getDamageLevel() {
+        return preferences.getInteger("upgrade_damage", 1);
+    }
+
+    public static int getFireRateLevel() {
+        return preferences.getInteger("upgrade_fire_rate", 1);
+    }
+
+    public static int getHealthLevel() {
+        return preferences.getInteger("upgrade_health", 1);
+    }
+
+    public static int getTotalScore() {
+        return preferences.getInteger("upgrade_total_score", 0);
+    }
+    public static void putDamageLevel() {
+        preferences.putInteger("upgrade_damage", getDamageLevel() + 1);
+        preferences.flush();
+    }
+    public static void putFireRateLevel() {
+        preferences.putInteger("upgrade_fire_rate", getFireRateLevel() + 1);
+        preferences.flush();
+    }
+    public static void putHealthLevel() {
+        preferences.putInteger("upgrade_health", getHealthLevel() + 1);
+        preferences.flush();
+    }
+    public static void putTotalScore(int totalScore) {
+        preferences.putInteger("upgrade_total_score", getTotalScore() + totalScore);
+        preferences.flush();
+    }
+    public static void pickUpTotalScore(int totalScore) {
+        preferences.putInteger("upgrade_total_score", getTotalScore() - totalScore);
+        preferences.flush();
+    }
+    public static void clearAllData() {
+        preferences.clear();
+        preferences.flush();
+    }
 }

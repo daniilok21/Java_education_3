@@ -28,11 +28,19 @@ public class ProgressUpgrades extends View {
         this.height = height;
         widthBar = textureBar.getWidth();
         heightBar = textureBar.getHeight();
-        this.upgradeLevel = 5;
+        this.upgradeLevel = upgradeLevel;
         xBar = 84;
         yBar = 22; // священные числа
         this.xIcon = xIcon;
         this.yIcon = yIcon;
+    }
+
+    public void upgradeLevelUp() {
+        this.upgradeLevel++;
+    }
+
+    public int getUpgradeLevel() {
+        return upgradeLevel;
     }
 
     @Override
@@ -51,6 +59,4 @@ public class ProgressUpgrades extends View {
         texture.dispose();
         textureBar.dispose();
     }
-
-
 }

@@ -23,6 +23,27 @@ public class View implements Disposable {
         this.y = y;
     }
 
+    public void setPos(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
     public boolean isHit(float tx, float ty) {
         return (tx >= x && tx <= x + width && ty >= y && ty <= y + height);
     }
