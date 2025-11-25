@@ -58,6 +58,14 @@ public class GameObject {
         body.setTransform(body.getPosition().x, y * SCALE, 0);
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     private Body createBody(float x, float y, World world) {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;

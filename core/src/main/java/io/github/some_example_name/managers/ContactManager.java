@@ -19,6 +19,8 @@ public class ContactManager {
                 Fixture fixA = contact.getFixtureA();
                 Fixture fixB = contact.getFixtureB();
 
+                contact.setEnabled(false);
+
                 int cDef = fixA.getFilterData().categoryBits;
                 int cDef2 = fixB.getFilterData().categoryBits;
 

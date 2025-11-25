@@ -11,6 +11,7 @@ public class GameSession {
 
     public GameState state;
     long nextTrashSpawnTime;
+    long nextAsteroidSpawnTime;
     long sessionStartTime;
     long pauseStartTime;
     private int score;
@@ -25,6 +26,8 @@ public class GameSession {
         destructedTrashNumber = 0;
         sessionStartTime = TimeUtils.millis();
         nextTrashSpawnTime = sessionStartTime + (long) (GameSettings.STARTING_TRASH_APPEARANCE_COOL_DOWN
+            * getTrashPeriodCoolDown());
+        nextAsteroidSpawnTime = sessionStartTime + (long) (GameSettings.STARTING_ASTEROIDS_APPEARANCE_COOL_DOWN
             * getTrashPeriodCoolDown());
     }
 
@@ -69,6 +72,15 @@ public class GameSession {
     public boolean shouldSpawnTrash() {
         if (nextTrashSpawnTime <= TimeUtils.millis()) {
             nextTrashSpawnTime = TimeUtils.millis() + (long) (GameSettings.STARTING_TRASH_APPEARANCE_COOL_DOWN
+                * getTrashPeriodCoolDown());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean shouldSpawnAsteroid() {
+        if (nextAsteroidSpawnTime <= TimeUtils.millis()) {
+            nextAsteroidSpawnTime = TimeUtils.millis() + (long) (GameSettings.STARTING_ASTEROIDS_APPEARANCE_COOL_DOWN
                 * getTrashPeriodCoolDown());
             return true;
         }

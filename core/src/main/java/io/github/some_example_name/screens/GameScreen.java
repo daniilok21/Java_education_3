@@ -21,6 +21,7 @@ import io.github.some_example_name.components.LiveView;
 import io.github.some_example_name.components.MovingBackgroundView;
 import io.github.some_example_name.components.TextView;
 import io.github.some_example_name.managers.MemoryManager;
+import io.github.some_example_name.objects.AsteroidObject;
 import io.github.some_example_name.objects.BulletObject;
 import io.github.some_example_name.objects.ShipObject;
 import io.github.some_example_name.objects.TrashObject;
@@ -32,7 +33,9 @@ public class GameScreen extends ScreenAdapter {
     ShipObject shipObject;
 
     ArrayList<TrashObject> trashArray;
+    ArrayList<AsteroidObject> asteroidArray;
     ArrayList<BulletObject> bulletArray;
+    ArrayList<Integer> needSpawnAsteroidArray;
 
     ContactManager contactManager;
 
@@ -61,7 +64,9 @@ public class GameScreen extends ScreenAdapter {
         contactManager = new ContactManager(myGdxGame.world);
 
         trashArray = new ArrayList<>();
+        asteroidArray = new ArrayList<>();
         bulletArray = new ArrayList<>();
+        needSpawnAsteroidArray = new ArrayList<>();
 
         shipObject = new ShipObject(
             GameSettings.SCREEN_WIDTH / 2, 150,
@@ -128,6 +133,14 @@ public class GameScreen extends ScreenAdapter {
                 );
                 trashArray.add(trashObject);
             }
+            if (gameSession.shouldSpawnAsteroid()) {
+                AsteroidObject asteroidObject = new AsteroidObject(
+                    128, 128, 3,
+                    GameResources.ASTEROID_IMG_PATH,
+                    myGdxGame.world, this
+                );
+                asteroidArray.add(asteroidObject);
+            }
 
             if (shipObject.needToShoot()) {
                 BulletObject laserBullet = new BulletObject(
@@ -146,6 +159,7 @@ public class GameScreen extends ScreenAdapter {
             }
 
             updateTrash();
+            updateAsteroid();
             updateBullets();
             backgroundView.move();
             gameSession.updateScore();
@@ -214,6 +228,7 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.begin();
         backgroundView.draw(myGdxGame.batch);
         for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
+        for (AsteroidObject asteroidObject : asteroidArray) asteroidObject.draw(myGdxGame.batch);
         shipObject.draw(myGdxGame.batch);
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
         topBlackoutView.draw(myGdxGame.batch);
@@ -253,7 +268,37 @@ public class GameScreen extends ScreenAdapter {
             }
         }
     }
+    private void updateAsteroid() {
+        for (int i = 0; i < asteroidArray.size(); i++) {
 
+            boolean hasToBeDestroyed = !asteroidArray.get(i).isAlive() || !asteroidArray.get(i).isInFrame();
+
+            if (!asteroidArray.get(i).isAlive()) {
+                gameSession.destructionRegistration();
+                if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
+            }
+
+            if (hasToBeDestroyed) {
+                myGdxGame.world.destroyBody(asteroidArray.get(i).body);
+                asteroidArray.remove(i--);
+            }
+        }
+    }
+
+    public void spawnAsteroid(AsteroidObject asteroidMom) {
+        System.out.println(asteroidMom.getLivesLeft());
+        AsteroidObject asteroid1 = new AsteroidObject(
+            asteroidMom.getX() - asteroidMom.width / 2, asteroidMom.getY(),
+            asteroidMom.getWidth() / 2, asteroidMom.getHeight() / 2,
+            asteroidMom.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
+            myGdxGame.world, this
+        );
+
+
+
+        asteroidArray.add(asteroid1);
+        asteroidMom.setLivesLeft(0);
+    }
     private void updateBullets() {
         for (int i = 0; i < bulletArray.size(); i++) {
             if (bulletArray.get(i).hasToBeDestroyed()) {
@@ -270,6 +315,12 @@ public class GameScreen extends ScreenAdapter {
             trash.dispose();
         }
         trashArray.clear();
+
+        for (AsteroidObject asteroidObject : asteroidArray) {
+            myGdxGame.world.destroyBody(asteroidObject.body);
+            asteroidObject.dispose();
+        }
+        asteroidArray.clear();
 
         for (BulletObject bullet : bulletArray) {
             myGdxGame.world.destroyBody(bullet.body);
