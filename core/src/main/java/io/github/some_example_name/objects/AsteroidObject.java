@@ -11,9 +11,10 @@ import io.github.some_example_name.screens.GameScreen;
 
 public class AsteroidObject extends GameObject {
 
-    private static final int paddingHorizontal = 20;
+    private static final int paddingHorizontal = 30;
 
     private int livesLeft;
+    private int livesFirst;
     GameScreen gameScreen;
 
     public AsteroidObject(int width, int height, int livesLeft, String texturePath, World world, GameScreen gameScreen) {
@@ -28,6 +29,7 @@ public class AsteroidObject extends GameObject {
 
         body.setLinearVelocity(new Vector2(0, -GameSettings.TRASH_VELOCITY));
         this.livesLeft = livesLeft;
+        livesFirst = livesLeft;
         this.gameScreen = gameScreen;
     }
 
@@ -41,11 +43,15 @@ public class AsteroidObject extends GameObject {
 
         body.setLinearVelocity(new Vector2(0, -GameSettings.TRASH_VELOCITY));
         this.livesLeft = livesLeft;
+        livesFirst = livesLeft;
         this.gameScreen = gameScreen;
     }
 
     public boolean isAlive() {
         return livesLeft > 0;
+    }
+    public boolean isNeedSpawnAsteroidDaughter () {
+        return livesLeft != livesFirst && livesLeft > 0;
     }
 
     public boolean isInFrame() {
@@ -60,9 +66,5 @@ public class AsteroidObject extends GameObject {
     @Override
     public void hit() {
         livesLeft -= 1;
-        if (livesLeft > 0) {
-            System.out.println(123);
-            gameScreen.spawnAsteroid(this);
-        }
     }
 }

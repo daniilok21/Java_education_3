@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import io.github.some_example_name.components.RecordsListView;
 import io.github.some_example_name.managers.ContactManager;
@@ -35,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
     ArrayList<TrashObject> trashArray;
     ArrayList<AsteroidObject> asteroidArray;
     ArrayList<BulletObject> bulletArray;
-    ArrayList<Integer> needSpawnAsteroidArray;
+    ArrayList<AsteroidObject> needSpawnAsteroidArray;
 
     ContactManager contactManager;
 
@@ -141,7 +142,29 @@ public class GameScreen extends ScreenAdapter {
                 );
                 asteroidArray.add(asteroidObject);
             }
+            for (AsteroidObject asteroidObject : asteroidArray) {
+                if (asteroidObject.isNeedSpawnAsteroidDaughter()) {
+                    Random r = new Random();
+                    AsteroidObject asteroid1 = new AsteroidObject(
+                        asteroidObject.getX() - asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 2),
+                        asteroidObject.getY(), asteroidObject.getWidth() / 2, asteroidObject.getHeight() / 2,
+                        asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
+                        myGdxGame.world, this
+                    );
+                    AsteroidObject asteroid2 = new AsteroidObject(
+                        asteroidObject.getX() + asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 2),
+                        asteroidObject.getY(), asteroidObject.getWidth() / 2, asteroidObject.getHeight() / 2,
+                        asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
+                        myGdxGame.world, this
+                    );
 
+                    needSpawnAsteroidArray.add(asteroid1);
+                    needSpawnAsteroidArray.add(asteroid2);
+                    asteroidObject.setLivesLeft(0);
+                }
+            }
+            asteroidArray.addAll(needSpawnAsteroidArray);
+            needSpawnAsteroidArray.clear();
             if (shipObject.needToShoot()) {
                 BulletObject laserBullet = new BulletObject(
                     shipObject.getX(), shipObject.getY() + shipObject.height / 2,
@@ -285,20 +308,6 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    public void spawnAsteroid(AsteroidObject asteroidMom) {
-        System.out.println(asteroidMom.getLivesLeft());
-        AsteroidObject asteroid1 = new AsteroidObject(
-            asteroidMom.getX() - asteroidMom.width / 2, asteroidMom.getY(),
-            asteroidMom.getWidth() / 2, asteroidMom.getHeight() / 2,
-            asteroidMom.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
-            myGdxGame.world, this
-        );
-
-
-
-        asteroidArray.add(asteroid1);
-        asteroidMom.setLivesLeft(0);
-    }
     private void updateBullets() {
         for (int i = 0; i < bulletArray.size(); i++) {
             if (bulletArray.get(i).hasToBeDestroyed()) {
