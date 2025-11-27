@@ -27,7 +27,7 @@ public class AsteroidObject extends GameObject {
             world
         );
 
-        body.setLinearVelocity(new Vector2(0, -GameSettings.TRASH_VELOCITY));
+        body.setLinearVelocity(new Vector2(0, -GameSettings.ASTEROID_VELOCITY + new Random().nextInt((int) GameSettings.ASTEROID_VELOCITY / 5)));
         this.livesLeft = livesLeft;
         livesFirst = livesLeft;
         this.gameScreen = gameScreen;
@@ -40,8 +40,7 @@ public class AsteroidObject extends GameObject {
             GameSettings.TRASH_BIT,
             world
         );
-
-        body.setLinearVelocity(new Vector2(0, -GameSettings.TRASH_VELOCITY));
+        body.setLinearVelocity(new Vector2(0, -GameSettings.ASTEROID_VELOCITY + new Random().nextInt((int) GameSettings.ASTEROID_VELOCITY / 5)));
         this.livesLeft = livesLeft;
         livesFirst = livesLeft;
         this.gameScreen = gameScreen;

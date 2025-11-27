@@ -41,6 +41,7 @@ public class ContactManager {
 
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
+                contact.setEnabled(false);
             }
 
             @Override

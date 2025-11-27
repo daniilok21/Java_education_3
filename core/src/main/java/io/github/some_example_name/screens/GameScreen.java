@@ -146,13 +146,13 @@ public class GameScreen extends ScreenAdapter {
                 if (asteroidObject.isNeedSpawnAsteroidDaughter()) {
                     Random r = new Random();
                     AsteroidObject asteroid1 = new AsteroidObject(
-                        asteroidObject.getX() - asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 2),
+                        asteroidObject.getX() - asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 4),
                         asteroidObject.getY(), asteroidObject.getWidth() / 2, asteroidObject.getHeight() / 2,
                         asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
                         myGdxGame.world, this
                     );
                     AsteroidObject asteroid2 = new AsteroidObject(
-                        asteroidObject.getX() + asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 2),
+                        asteroidObject.getX() + asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 4),
                         asteroidObject.getY(), asteroidObject.getWidth() / 2, asteroidObject.getHeight() / 2,
                         asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
                         myGdxGame.world, this
@@ -166,13 +166,47 @@ public class GameScreen extends ScreenAdapter {
             asteroidArray.addAll(needSpawnAsteroidArray);
             needSpawnAsteroidArray.clear();
             if (shipObject.needToShoot()) {
-                BulletObject laserBullet = new BulletObject(
-                    shipObject.getX(), shipObject.getY() + shipObject.height / 2,
-                    GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
-                    GameResources.BULLET_IMG_PATH,
-                    myGdxGame.world
-                );
-                bulletArray.add(laserBullet);
+                if (MemoryManager.getDamageLevel() == 1 || MemoryManager.getDamageLevel() == 3 || MemoryManager.getDamageLevel() == 5) {
+                    BulletObject laserBullet1 = new BulletObject(
+                        shipObject.getX(), shipObject.getY() + shipObject.height / 2,
+                        GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
+                        GameResources.BULLET_IMG_PATH,
+                        myGdxGame.world
+                    );
+                    bulletArray.add(laserBullet1);
+                }
+                if (MemoryManager.getDamageLevel() != 1) {
+                    BulletObject laserBullet2_1 = new BulletObject(
+                        shipObject.getX() - 20, shipObject.getY() - 12 + shipObject.height / 2,
+                        GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
+                        GameResources.BULLET_IMG_PATH,
+                        myGdxGame.world
+                    );
+                    bulletArray.add(laserBullet2_1);
+                    BulletObject laserBullet2_2 = new BulletObject(
+                        shipObject.getX() + 20, shipObject.getY() - 12 + shipObject.height / 2,
+                        GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
+                        GameResources.BULLET_IMG_PATH,
+                        myGdxGame.world
+                    );
+                    bulletArray.add(laserBullet2_2);
+                }
+                if (MemoryManager.getDamageLevel() >= 4) {
+                    BulletObject laserBullet3_1 = new BulletObject(
+                        shipObject.getX() - 48, shipObject.getY() - 62 + shipObject.height / 2,
+                        GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
+                        GameResources.BULLET_IMG_PATH,
+                        myGdxGame.world
+                    );
+                    bulletArray.add(laserBullet3_1);
+                    BulletObject laserBullet3_2 = new BulletObject(
+                        shipObject.getX() + 48, shipObject.getY() - 62 + shipObject.height / 2,
+                        GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEIGHT,
+                        GameResources.BULLET_IMG_PATH,
+                        myGdxGame.world
+                    );
+                    bulletArray.add(laserBullet3_2);
+                }
                 if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.shootSound.play();
             }
 
@@ -250,8 +284,8 @@ public class GameScreen extends ScreenAdapter {
 
         myGdxGame.batch.begin();
         backgroundView.draw(myGdxGame.batch);
-        for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
         for (AsteroidObject asteroidObject : asteroidArray) asteroidObject.draw(myGdxGame.batch);
+        for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
         shipObject.draw(myGdxGame.batch);
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
         topBlackoutView.draw(myGdxGame.batch);
@@ -284,6 +318,9 @@ public class GameScreen extends ScreenAdapter {
                 gameSession.destructionRegistration();
                 if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
             }
+            if (!trashArray.get(i).isInFrame()) {
+                gameSession.missedRegistration();
+            }
 
             if (hasToBeDestroyed) {
                 myGdxGame.world.destroyBody(trashArray.get(i).body);
@@ -299,6 +336,10 @@ public class GameScreen extends ScreenAdapter {
             if (!asteroidArray.get(i).isAlive()) {
                 gameSession.destructionRegistration();
                 if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
+            }
+
+            if (!asteroidArray.get(i).isInFrame()) {
+                gameSession.missedRegistration();
             }
 
             if (hasToBeDestroyed) {
