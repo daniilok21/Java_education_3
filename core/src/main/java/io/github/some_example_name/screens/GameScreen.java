@@ -137,7 +137,7 @@ public class GameScreen extends ScreenAdapter {
             if (gameSession.shouldSpawnAsteroid()) {
                 AsteroidObject asteroidObject = new AsteroidObject(
                     128, 128, 3,
-                    GameResources.ASTEROID_IMG_PATH,
+                    GameResources.ASTEROID_IMG_PATH + "3.png",
                     myGdxGame.world, this
                 );
                 asteroidArray.add(asteroidObject);
@@ -148,13 +148,13 @@ public class GameScreen extends ScreenAdapter {
                     AsteroidObject asteroid1 = new AsteroidObject(
                         asteroidObject.getX() - asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 4),
                         asteroidObject.getY(), asteroidObject.getWidth() / 2, asteroidObject.getHeight() / 2,
-                        asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
+                        asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH + asteroidObject.getLivesLeft() + ".png",
                         myGdxGame.world, this
                     );
                     AsteroidObject asteroid2 = new AsteroidObject(
                         asteroidObject.getX() + asteroidObject.width / 2 + r.nextInt(asteroidObject.getWidth() / 4),
                         asteroidObject.getY(), asteroidObject.getWidth() / 2, asteroidObject.getHeight() / 2,
-                        asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH,
+                        asteroidObject.getLivesLeft(), GameResources.ASTEROID_IMG_PATH + asteroidObject.getLivesLeft() + ".png",
                         myGdxGame.world, this
                     );
 

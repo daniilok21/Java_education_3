@@ -18,7 +18,7 @@ public class GameResources {
     public static final String BULLET_IMG_PATH = "textures/bullet.png";
     public static final String SHIP_IMG_PATH = "textures/ship.png";
     public static final String TRASH_IMG_PATH = "textures/trash.png";
-    public static final String ASTEROID_IMG_PATH = "textures/asteroid.png";
+    public static final String ASTEROID_IMG_PATH = "textures/asteroid_stage";
 
     public static final String UPGRADES_BACK_BAR_IMG_PATH = "textures/back_upgrades_bar.png";
     public static final String UPGRADES_PLUS_ICON_IMG_PATH = "textures/plus_icon.png";

@@ -34,7 +34,6 @@ public class GameSettings {
     public static final int TRASH_HEIGHT = 100;
     public static final int BULLET_WIDTH = 15;
     public static final int BULLET_HEIGHT = 45;
-
     // upgrades
     public static final int UPGRADES_KOFF_COST_UP = 100;
 }
