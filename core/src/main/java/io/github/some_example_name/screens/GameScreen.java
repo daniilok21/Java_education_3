@@ -266,7 +266,6 @@ public class GameScreen extends ScreenAdapter {
                         shipObject.move(myGdxGame.touch);
                     }
                     break;
-
                 case PAUSED:
                     if (continueButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
                         gameSession.resumeGame();
