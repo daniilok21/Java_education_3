@@ -46,6 +46,24 @@ public class MemoryManager {
         return table;
     }
 
+    public static void saveAccelerometerUse(boolean useAccelerometer) {
+        preferences.putBoolean("use_accelerometer", useAccelerometer);
+        preferences.flush();
+    }
+
+    public static boolean loadAccelerometerUse() {
+        return preferences.getBoolean("use_accelerometer", false);
+    }
+
+    public static void saveVibration(boolean enabled) {
+        preferences.putBoolean("vibration", enabled);
+        preferences.flush();
+    }
+
+    public static boolean loadVibration() {
+        return preferences.getBoolean("vibration", true);
+    }
+
     public static int getDamageLevel() {
         return preferences.getInteger("upgrade_damage", 1);
     }

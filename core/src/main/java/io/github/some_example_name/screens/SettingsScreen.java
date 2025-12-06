@@ -1,6 +1,7 @@
 package io.github.some_example_name.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
@@ -26,30 +27,42 @@ public class SettingsScreen extends ScreenAdapter {
     ButtonView returnButton;
     TextView musicSettingView;
     TextView soundSettingView;
+    TextView accelerometerSettingsViem;
+    TextView vibratorSettingsViem;
     TextView clearSettingView;
 
     public SettingsScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
 
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
-        titleTextView = new TextView(myGdxGame.largeWhiteFont, 256, 956, "Settings");
-        blackoutImageView = new ImageView(85, 365, GameResources.BLACKOUT_MIDDLE_IMG_PATH);
-        clearSettingView = new TextView(myGdxGame.commonWhiteFont, 173, 599, "clear records");
+        titleTextView = new TextView(myGdxGame.largeWhiteFont, 256, 960, "Settings");
+        blackoutImageView = new ImageView(85, 345, 550, 560, GameResources.BLACKOUT_MIDDLE_IMG_PATH);
+        clearSettingView = new TextView(myGdxGame.commonWhiteFont, 173, 581, "clear records");
 
         musicSettingView = new TextView(
             myGdxGame.commonWhiteFont,
-            173, 717,
+            173, 817,
             "music: " + translateStateToText(MemoryManager.loadIsMusicOn())
         );
 
         soundSettingView = new TextView(
             myGdxGame.commonWhiteFont,
-            173, 658,
+            173, 758,
             "sound: " + translateStateToText(MemoryManager.loadIsSoundOn())
+        );
+        accelerometerSettingsViem = new TextView(
+            myGdxGame.commonWhiteFont,
+            173, 699,
+            "accelerometer: " + translateStateToText(MemoryManager.loadAccelerometerUse())
+        );
+        vibratorSettingsViem = new TextView(
+            myGdxGame.commonWhiteFont,
+            173, 640,
+            "vibration: " + translateStateToText(MemoryManager.loadVibration())
         );
 
         returnButton = new ButtonView(
-            280, 447,
+            280, 407,
             160, 70,
             myGdxGame.commonBlackFont,
             GameResources.BUTTON_SHORT_BG_IMG_PATH,
@@ -75,6 +88,8 @@ public class SettingsScreen extends ScreenAdapter {
         returnButton.draw(myGdxGame.batch);
         musicSettingView.draw(myGdxGame.batch);
         soundSettingView.draw(myGdxGame.batch);
+        accelerometerSettingsViem.draw(myGdxGame.batch);
+        vibratorSettingsViem.draw(myGdxGame.batch);
         clearSettingView.draw(myGdxGame.batch);
 
         myGdxGame.batch.end();
@@ -100,6 +115,14 @@ public class SettingsScreen extends ScreenAdapter {
                 MemoryManager.saveSoundSettings(!MemoryManager.loadIsSoundOn());
                 soundSettingView.setText("sound: " + translateStateToText(MemoryManager.loadIsSoundOn()));
                 myGdxGame.audioManager.updateSoundFlag();
+            }
+            if (accelerometerSettingsViem.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                MemoryManager.saveAccelerometerUse(!MemoryManager.loadAccelerometerUse());
+                accelerometerSettingsViem.setText("accelerometer: " + translateStateToText(MemoryManager.loadAccelerometerUse()));
+            }
+            if (vibratorSettingsViem.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                MemoryManager.saveVibration(!MemoryManager.loadVibration());
+                vibratorSettingsViem.setText("vibration: " + translateStateToText(MemoryManager.loadVibration()));
             }
         }
     }

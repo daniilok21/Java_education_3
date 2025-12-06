@@ -1,8 +1,10 @@
 package io.github.some_example_name.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -58,6 +60,8 @@ public class GameScreen extends ScreenAdapter {
     RecordsListView recordsListView;
     ButtonView homeButton2;
 
+    boolean hasAccelerometer;
+
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         gameSession = new GameSession();
@@ -68,6 +72,8 @@ public class GameScreen extends ScreenAdapter {
         asteroidArray = new ArrayList<>();
         bulletArray = new ArrayList<>();
         needSpawnAsteroidArray = new ArrayList<>();
+
+        hasAccelerometer = Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.Accelerometer);
 
         shipObject = new ShipObject(
             GameSettings.SCREEN_WIDTH / 2, 150,
@@ -122,10 +128,14 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
         handleInput();
-
         if (gameSession.state == GameState.PLAYING) {
+            if (hasAccelerometer && MemoryManager.loadAccelerometerUse()) {
+                float accelX = Gdx.input.getAccelerometerX();
+                float accelZ = Gdx.input.getAccelerometerZ();
+
+                shipObject.body.applyForceToCenter(new Vector2(-accelX * 130f, -accelZ * 100f), true);
+            }
             if (gameSession.shouldSpawnTrash()) {
                 TrashObject trashObject = new TrashObject(
                     GameSettings.TRASH_WIDTH, GameSettings.TRASH_HEIGHT,
@@ -252,7 +262,9 @@ public class GameScreen extends ScreenAdapter {
                     if (pauseButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
                         gameSession.pauseGame();
                     }
-                    shipObject.move(myGdxGame.touch);
+                    if (!MemoryManager.loadAccelerometerUse()) {
+                        shipObject.move(myGdxGame.touch);
+                    }
                     break;
 
                 case PAUSED:
